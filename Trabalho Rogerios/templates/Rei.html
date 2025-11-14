@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Ordem de Serviços</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">Meu Sistema</div>
+            <ul class="menu">
+                <li><a href="{{ url_for('Tela_Inicial') }}">Início</a></li>
+                <li><a href="{{ url_for('Cadastrar_OS') }}">Cadastrar</a></li>
+                <li><a href="{{ url_for('Relatorios_DE_OS') }}">Listar</a></li>
+                <li><a href="{{ url_for('Deletar_OS') }}">Sair</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>Desenvolvido por Rogério dos Santos</p>
+    </footer>
+</body>
+</html>
