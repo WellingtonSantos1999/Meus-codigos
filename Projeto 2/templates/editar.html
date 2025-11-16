@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar OS {{ ordem.id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>3-Alterar Ordem de Serviço✎ - OS {{ ordem.id }}</h1>
+    {% if error %}
+        <p style="color: red;"><strong>‼️ {{ error }}</strong></p>
+    {% endif %}
+    <form method="POST">
+        <label for="nome">Novo Nome:</label><br>
+        <input type="text" id="nome" name="nome" value="{{ ordem.nome }}" required><br><br>
+        
+        <label for="celular">Novo Celular:</label><br>
+        <input type="number" id="celular" name="celular" value="{{ ordem.celular }}" required><br><br>
+        
+        <label for="model">Novo Modelo:</label><br>
+        <input type="text" id="model" name="model" value="{{ ordem.model }}" required><br><br>
+        
+        <label for="defeito">Novo Defeito:</label><br>
+        <input type="text" id="defeito" name="defeito" value="{{ ordem.defeito }}" required><br><br>
+        
+        <input type="submit" value="Salvar Alterações">
+    </form>
+    <p><a href="{{ url_for('relatorio') }}">Cancelar e Voltar ao Relatório</a></p>
+</body>
+</html>

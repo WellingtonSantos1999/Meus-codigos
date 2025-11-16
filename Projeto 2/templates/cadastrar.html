@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar OS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>1-Cadastro de Ordem de Serviço📝</h1>
+    {% if error %}
+        <p style="color: red;"><strong>‼️ {{ error }}</strong></p>
+    {% endif %}
+    <form method="POST">
+        <label for="nome">Nome Completo:</label><br>
+        <input type="text" id="nome" name="nome" required><br><br>
+        
+        <label for="celular">Celular:</label><br>
+        <input type="number" id="celular" name="celular" required><br><br>
+        
+        <label for="model">Modelo do Equipamento:</label><br>
+        <input type="text" id="model" name="model" required><br><br>
+        
+        <label for="defeito">Defeito:</label><br>
+        <input type="text" id="defeito" name="defeito" required><br><br>
+        
+        <input type="submit" value="Cadastrar OS">
+    </form>
+    <p><a href="{{ url_for('index') }}">Voltar ao Menu</a></p>
+</body>
+</html>

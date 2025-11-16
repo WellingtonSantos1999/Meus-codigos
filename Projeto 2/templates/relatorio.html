@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de OS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>2-Relatório de Ordem de Serviço🔍</h1>
+
+    {% if ordens %}
+    <div class="os-table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>OS (ID)</th>
+                    <th>Cliente</th>
+                    <th>Celular</th>
+                    <th>Modelo</th>
+                    <th>Defeito</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ordem in ordens %}
+                <tr>
+                    <td>{{ ordem.id }}</td>
+                    <td>{{ ordem.nome }}</td>
+                    <td>{{ ordem.celular }}</td>
+                    <td>{{ ordem.model }}</td>
+                    <td>{{ ordem.defeito }}</td>
+                    <td>
+                        <a href="{{ url_for('editar', os_id=ordem.id) }}">Editar ✎</a>
+                        <form method="POST" action="{{ url_for('apagar', os_id=ordem.id) }}" class="action-form">
+                            <input type="submit" value="Apagar ❌" onclick="return confirm('Tem certeza que deseja apagar a OS {{ ordem.id }}?');">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="message">
+            <p>Nenhuma Ordem Cadastrada até o Momento‼️</p>
+        </div>
+    {% endif %}
+
+    <p><a href="{{ url_for('index') }}">← Voltar ao Menu</a></p>
+</body>
+</html>
