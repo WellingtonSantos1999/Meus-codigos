@@ -1,5 +1,5 @@
 Diagrama de Classe Entidades
-Protótipo da Tela, Diagrama e Código versão mais completa Link:https://drive.google.com/drive/folders/1sUQnjgylMXQl0m6_YzcOLk1MbhNahRUp?usp=drive_link
+Protótipo da Tela, Diagrama e Código versão mais completa Link:https://drive.google.com/drive/folders/1nky5SmrrKfjPmP7sW4NeW7wEKnaGa3TW?usp=sharing
 
 # Sistema de Petshop
 
@@ -26,8 +26,9 @@ O sistema possui as seguintes funcionalidades:
 ## Tecnologias utilizadas
 
 - Java
-- Java Swing
-- SQL
+- Spring Boot
+- Thymeleaf 
+- MySQL
 - GitHub
 
 
