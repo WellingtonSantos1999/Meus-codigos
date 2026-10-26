@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro de Pets - PetShop Web</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #00000015;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        .botoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button, .voltar {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        button {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .voltar {
+            background-color: #6b7280;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 th:text="${pet.idPet == null}
+        ? 'Cadastrar Pet'
+        : 'Editar Pet'">
+        Cadastrar Pet
+    </h1>
+
+    <form th:action="@{/pets/salvar}"
+          th:object="${pet}"
+          method="post">
+
+        <!-- ID do Pet para edição -->
+        <input type="hidden"
+               th:field="*{idPet}">
+
+        <label for="nome">Nome do Pet</label>
+        <input type="text"
+               id="nome"
+               th:field="*{nome}"
+               required>
+
+        <label for="especie">Espécie</label>
+        <select id="especie"
+                th:field="*{especie}"
+                required>
+            <option value="">Selecione</option>
+            <option value="Cachorro">Cachorro</option>
+            <option value="Gato">Gato</option>
+            <option value="Ave">Ave</option>
+            <option value="Coelho">Coelho</option>
+            <option value="Outro">Outro</option>
+        </select>
+
+        <label for="raca">Raça</label>
+        <input type="text"
+               id="raca"
+               th:field="*{raca}">
+
+        <label for="idade">Idade</label>
+        <input type="number"
+               id="idade"
+               th:field="*{idade}"
+               min="0">
+
+        <label for="sexo">Sexo</label>
+        <select id="sexo"
+                th:field="*{sexo}">
+            <option value="">Selecione</option>
+            <option value="Macho">Macho</option>
+            <option value="Fêmea">Fêmea</option>
+        </select>
+
+        <label for="idCliente">Dono do Pet</label>
+
+        <select id="idCliente"
+                name="idCliente"
+                required>
+
+            <option value="">
+                Selecione um cliente
+            </option>
+
+            <option th:each="cliente : ${clientes}"
+                    th:value="${cliente.idCliente}"
+                    th:text="${cliente.nome}"
+                    th:selected="${pet.cliente != null
+                        and pet.cliente.idCliente == cliente.idCliente}">
+            </option>
+
+        </select>
+
+        <div class="botoes">
+
+            <button type="submit">
+                Salvar Pet
+            </button>
+
+            <a class="voltar"
+               th:href="@{/pets}">
+                Cancelar
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

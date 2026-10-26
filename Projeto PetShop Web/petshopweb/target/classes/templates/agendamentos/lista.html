@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Agendamentos - PetShop Web</title>
+
+    <style>
+
+        /* Organizar os botões do menu */
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* Padronizar o tamanho dos botões */
+        .menu a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 10px 14px;
+            margin: 0;
+
+            height: 40px;
+            box-sizing: border-box;
+
+            font-size: 14px;
+            line-height: 20px;
+            text-decoration: none;
+            border-radius: 5px;
+
+            white-space: nowrap;
+        }
+
+        /* Botão de voltar */
+        .menu .botao-inicio {
+            background-color: #64748b;
+            color: white;
+        }
+
+        .menu .botao-inicio:hover {
+            background-color: #475569;
+        }
+
+        .botao-inicio {
+            display: inline-block;
+            background-color: #64748b;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        .botao-inicio:hover {
+            background-color: #475569;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #00000015;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .botao {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            padding: 10px 14px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .botao-editar {
+            background-color: #eab308;
+            color: black;
+        }
+
+        .botao-excluir {
+            background-color: #dc2626;
+        }
+
+        .botao-voltar {
+            background-color: #6b7280;
+        }
+
+        .tabela-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        .acoes {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .acoes form {
+            margin: 0;
+        }
+
+        .sucesso {
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .erro {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Gerenciamento de Agendamentos</h1>
+
+    <!-- MENU -->
+
+    <div class="menu">
+
+        <a th:href="@{/}" class="botao-inicio">
+            🏠 Voltar ao Início
+        </a>
+
+        <a class="botao"
+           th:href="@{/agendamentos/novo}">
+            + Novo Agendamento
+        </a>
+
+
+        <a class="botao botao-voltar"
+           th:href="@{/clientes}">
+            Clientes
+        </a>
+
+        <a class="botao botao-voltar"
+           th:href="@{/pets}">
+            Pets
+        </a>
+
+        <a class="botao botao-voltar"
+           th:href="@{/funcionarios}">
+            Funcionários
+        </a>
+
+        <a class="botao botao-voltar"
+           th:href="@{/servicos}">
+            Serviços
+        </a>
+
+    </div>
+
+    <!-- MENSAGENS -->
+
+    <div class="sucesso"
+         th:if="${sucesso}"
+         th:text="${sucesso}">
+    </div>
+
+    <div class="erro"
+         th:if="${erro}"
+         th:text="${erro}">
+    </div>
+
+    <!-- TABELA -->
+
+    <div class="tabela-container">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Pet</th>
+                <th>Serviço</th>
+                <th>Funcionário</th>
+                <th>Data</th>
+                <th>Horário</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="agendamento : ${agendamentos}">
+
+                <td th:text="${agendamento.idAgendamento}">
+                </td>
+
+                <td th:text="${agendamento.pet.nome}">
+                </td>
+
+                <td th:text="${agendamento.servico.nome}">
+                </td>
+
+                <td th:text="${agendamento.funcionario.nome}">
+                </td>
+
+                <td th:text="${#temporals.format(
+                    agendamento.data, 'dd/MM/yyyy')}">
+                </td>
+
+                <td th:text="${#temporals.format(
+                    agendamento.horario, 'HH:mm')}">
+                </td>
+
+                <td class="status"
+                    th:text="${agendamento.status != null
+                        ? agendamento.status
+                        : '-'}">
+                </td>
+
+                <td>
+
+                    <div class="acoes">
+
+                        <a class="botao botao-editar"
+                           th:href="@{/agendamentos/editar/{id}
+                           (id=${agendamento.idAgendamento})}">
+                            Editar
+                        </a>
+
+                        <form
+                                th:action="@{/agendamentos/excluir/{id}
+                            (id=${agendamento.idAgendamento})}"
+                                method="post"
+                                onsubmit="return confirm(
+                            'Deseja realmente excluir este agendamento?'
+                            );">
+
+                            <button type="submit"
+                                    class="botao botao-excluir">
+                                Excluir
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(agendamentos)}">
+
+                <td colspan="8">
+                    Nenhum agendamento cadastrado.
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

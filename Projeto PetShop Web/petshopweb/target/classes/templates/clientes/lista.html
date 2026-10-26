@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Clientes - PetShop Web</title>
+
+    <style>
+
+        .botao-inicio {
+            display: inline-block;
+            background-color: #64748b;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        .botao-inicio:hover {
+            background-color: #475569;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #00000015;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .botao {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .botao-editar {
+            background-color: #eab308;
+            color: black;
+        }
+
+        .botao-excluir {
+            background-color: #dc2626;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        .sucesso {
+            color: #166534;
+            background: #dcfce7;
+            padding: 12px;
+            margin-top: 15px;
+        }
+
+        .erro {
+            color: #991b1b;
+            background: #fee2e2;
+            padding: 12px;
+            margin-top: 15px;
+        }
+
+        .acoes {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .acoes form {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Gerenciamento de Clientes</h1>
+    <a th:href="@{/}" class="botao-inicio">
+        🏠 Voltar ao Início
+    </a>
+
+    <a class="botao"
+       th:href="@{/clientes/novo}">
+        + Novo Cliente
+    </a>
+
+
+
+
+    <!-- Mensagem de sucesso -->
+    <div class="sucesso"
+         th:if="${sucesso}"
+         th:text="${sucesso}">
+    </div>
+
+    <!-- Mensagem de erro -->
+    <div class="erro"
+         th:if="${erro}"
+         th:text="${erro}">
+    </div>
+
+    <table>
+
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Telefone</th>
+            <th>E-mail</th>
+            <th>Endereço</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr th:each="cliente : ${clientes}">
+
+            <td th:text="${cliente.idCliente}"></td>
+
+            <td th:text="${cliente.nome}"></td>
+
+            <td th:text="${cliente.cpf}"></td>
+
+            <td th:text="${cliente.telefone}"></td>
+
+            <td th:text="${cliente.email}"></td>
+
+            <td th:text="${cliente.endereco}"></td>
+
+            <td>
+                <div class="acoes">
+
+                    <a class="botao botao-editar"
+                       th:href="@{/clientes/editar/{id}(id=${cliente.idCliente})}">
+                        Editar
+                    </a>
+
+                    <form th:action="@{/clientes/excluir/{id}(id=${cliente.idCliente})}"
+                          method="post"
+                          onsubmit="return confirm('Deseja realmente excluir este cliente?');">
+
+                        <button type="submit"
+                                class="botao botao-excluir">
+                            Excluir
+                        </button>
+
+                    </form>
+
+                </div>
+            </td>
+
+        </tr>
+
+        <tr th:if="${#lists.isEmpty(clientes)}">
+            <td colspan="7">
+                Nenhum cliente cadastrado.
+            </td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>
