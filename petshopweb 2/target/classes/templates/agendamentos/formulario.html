@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Agendamento - PetShop Web</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #00000015;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 15px;
+            background-color: white;
+        }
+
+        .botoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button, .voltar {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        button {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .voltar {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .aviso {
+            background-color: #eff6ff;
+            color: #1e40af;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <link rel="stylesheet" th:href="@{/css/background.css}">
+</head>
+
+<body>
+
+<!-- MENSAGEM DE ERRO -->
+<div th:if="${erro}"
+     style="background-color: #f8d7da;
+            color: #842029;
+            padding: 12px;
+            border: 1px solid #f5c2c7;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-weight: bold;">
+
+    <span th:text="${erro}"></span>
+
+</div>
+
+<div class="container">
+
+    <h1 th:text="${agendamento.idAgendamento == null}
+        ? 'Cadastrar Agendamento'
+        : 'Editar Agendamento'">
+        Cadastrar Agendamento
+    </h1>
+
+    <div class="aviso">
+        Selecione o Pet, o serviço e o funcionário
+        responsável pelo atendimento.
+    </div>
+
+    <form th:action="@{/agendamentos/salvar}"
+          th:object="${agendamento}"
+          method="post">
+
+        <!-- ID DO AGENDAMENTO -->
+
+        <input type="hidden"
+               th:field="*{idAgendamento}">
+
+
+        <!-- SELECIONAR PET -->
+
+        <label for="idPet">Pet</label>
+
+        <select id="idPet"
+                name="idPet"
+                required>
+
+            <option value="">
+                Selecione um Pet
+            </option>
+
+            <option th:each="pet : ${pets}"
+                    th:value="${pet.idPet}"
+                    th:text="${pet.nome}"
+                    th:selected="${agendamento.pet != null
+                        and agendamento.pet.idPet == pet.idPet}">
+            </option>
+
+        </select>
+
+
+        <!-- SELECIONAR SERVICO -->
+
+        <label for="idServico">Serviço</label>
+
+        <select id="idServico"
+                name="idServico"
+                required>
+
+            <option value="">
+                Selecione um Serviço
+            </option>
+
+            <option th:each="servico : ${servicos}"
+                    th:value="${servico.idServico}"
+                    th:text="${servico.nome}"
+                    th:selected="${agendamento.servico != null
+                        and agendamento.servico.idServico == servico.idServico}">
+            </option>
+
+        </select>
+
+
+        <!-- SELECIONAR FUNCIONARIO -->
+
+        <label for="idFuncionario">
+            Funcionário responsável
+        </label>
+
+        <select id="idFuncionario"
+                name="idFuncionario"
+                required>
+
+            <option value="">
+                Selecione um Funcionário
+            </option>
+
+            <option th:each="funcionario : ${funcionarios}"
+                    th:value="${funcionario.idFuncionario}"
+                    th:text="${funcionario.nome}"
+                    th:selected="${agendamento.funcionario != null
+                        and agendamento.funcionario.idFuncionario == funcionario.idFuncionario}">
+            </option>
+
+        </select>
+
+
+        <!-- DATA -->
+
+        <label for="data">Data do agendamento</label>
+
+        <input type="date"
+               id="data"
+               th:field="*{data}"
+               required>
+
+
+        <!-- HORARIO -->
+
+        <label for="horario">Horário</label>
+
+        <input type="time"
+               id="horario"
+               th:field="*{horario}"
+               required>
+
+
+        <!-- STATUS -->
+
+        <label for="status">Status</label>
+
+        <select id="status"
+                th:field="*{status}">
+
+            <option value="Agendado">
+                Agendado
+            </option>
+
+            <option value="Concluído">
+                Concluído
+            </option>
+
+            <option value="Cancelado">
+                Cancelado
+            </option>
+
+        </select>
+
+
+        <!-- BOTOES -->
+
+        <div class="botoes">
+
+            <button type="submit">
+                Salvar Agendamento
+            </button>
+
+            <a class="voltar"
+               th:href="@{/agendamentos}">
+                Cancelar
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>
